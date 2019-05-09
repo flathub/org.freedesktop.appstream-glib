@@ -6,7 +6,8 @@
     "command" : "appstream-util",
     "separate-locales": false,
     "finish-args" : [
-        "--filesystem=host"
+        "--filesystem=host",
+        "--share=network"
     ],
     "cleanup" : [
         "*.la",
