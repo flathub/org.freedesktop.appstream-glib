@@ -1,0 +1,66 @@
+From 3e2e5429acf9aa667cb3f9980a89e892cc18ec69 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bart=C5=82omiej=20Piotrowski?= <b@bpiotrowski.pl>
+Date: Tue, 14 May 2019 21:06:33 +0200
+Subject: [PATCH] Relax validation requirements a bit
+
+- skip paragraph length checks
+- allow <translation> to be missing
+---
+ libappstream-glib/as-app-validate.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/libappstream-glib/as-app-validate.c b/libappstream-glib/as-app-validate.c
+index a8b4b74..5e37bb4 100644
+--- a/libappstream-glib/as-app-validate.c
++++ b/libappstream-glib/as-app-validate.c
+@@ -232,10 +232,12 @@ as_app_validate_description_para (const gchar *text, AsAppValidateHelper *helper
+ 	}
+ 
+ 	/* previous was short */
+-	if (helper->previous_para_was_short) {
+-		ai_app_validate_add (helper,
+-				     AS_PROBLEM_KIND_STYLE_INCORRECT,
+-				     "<p> is too short [%s]", text);
++	if ((helper->flags & AS_APP_VALIDATE_FLAG_STRICT) > 0) {
++		if (helper->previous_para_was_short) {
++			ai_app_validate_add (helper,
++					AS_PROBLEM_KIND_STYLE_INCORRECT,
++					"<p> is too short [%s]", text);
++		}
+ 	}
+ 	helper->previous_para_was_short = FALSE;
+ 
+@@ -1199,10 +1201,11 @@ as_app_validate (AsApp *app, guint32 flags, GError **error)
+ 	gboolean require_url = TRUE;
+ 	gboolean require_content_license = TRUE;
+ 	gboolean require_name = TRUE;
+-	gboolean require_translation = TRUE;
++	gboolean require_translation = FALSE;
+ 	gboolean require_content_rating = FALSE;
+ 	gboolean require_name_shorter_than_summary = FALSE;
+ 	gboolean validate_license = TRUE;
++	gboolean allow_short_para = TRUE;
+ 	gboolean ret;
+ 	guint length_name_max = 60;
+ 	guint length_name_min = 3;
+@@ -1264,6 +1267,8 @@ as_app_validate (AsApp *app, guint32 flags, GError **error)
+ 		require_sentence_case = TRUE;
+ 		require_name_shorter_than_summary = TRUE;
+ 		require_contactdetails = TRUE;
++		require_translation = TRUE;
++		allow_short_para = FALSE;
+ 		number_para_min = 2;
+ 		number_para_max = 4;
+ 	}
+@@ -1681,7 +1686,7 @@ as_app_validate (AsApp *app, guint32 flags, GError **error)
+ 						   helper,
+ 						   number_para_min,
+ 						   number_para_max,
+-						   FALSE,
++						   allow_short_para,
+ 						   &error_local);
+ 		if (!ret) {
+ 			ai_app_validate_add (helper,
+-- 
+2.21.0
+

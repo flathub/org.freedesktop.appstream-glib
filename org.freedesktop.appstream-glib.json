@@ -59,7 +59,11 @@
                 {
                     "type": "git",
                     "url": "https://github.com/hughsie/appstream-glib",
-                    "commit": "ec6265d3ab0999db35ba43e60f4ee49efcd1b4b3"
+                    "commit": "0ce2e0b8e8d2dd9be986a7fced0450aa71f181bd"
+                },
+                {
+                    "type": "patch",
+                    "path": "0001-Relax-validation-requirements-a-bit.patch"
                 }
             ]
         }
