@@ -64,7 +64,12 @@
                 {
                     "type": "patch",
                     "path": "0001-Relax-validation-requirements-a-bit.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "0002-Relax-screenshots-requirements.patch"
                 }
+
             ]
         }
     ]
