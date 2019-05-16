@@ -1,39 +1,35 @@
-From 12ea91ecfc7bce1feab66caf39695570759fc44d Mon Sep 17 00:00:00 2001
+From 7151bb5fb6d6073c5121b737a4db10c60dcb1672 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bart=C5=82omiej=20Piotrowski?= <b@bpiotrowski.pl>
 Date: Thu, 16 May 2019 08:08:18 +0200
-Subject: [PATCH] Relax screenshots requirements
+Subject: [PATCH] Move padding and size checks to validate-strict
 
-- Move padding check to strict mode for now
-- Require only minimal size by default
-- Maximum size check is moved to validate-strict
 ---
- libappstream-glib/as-app-validate.c | 86 ++++++++++++++++-------------
- 1 file changed, 49 insertions(+), 37 deletions(-)
+ libappstream-glib/as-app-validate.c | 85 ++++++++++++++++-------------
+ 1 file changed, 47 insertions(+), 38 deletions(-)
 
 diff --git a/libappstream-glib/as-app-validate.c b/libappstream-glib/as-app-validate.c
-index 5e37bb4..329a471 100644
+index 5e37bb4..a98dbb4 100644
 --- a/libappstream-glib/as-app-validate.c
 +++ b/libappstream-glib/as-app-validate.c
-@@ -421,6 +421,9 @@ ai_app_validate_image_check (AsImage *im, AsAppValidateHelper *helper)
+@@ -421,6 +421,8 @@ ai_app_validate_image_check (AsImage *im, AsAppValidateHelper *helper)
  	AsImageAlphaFlags alpha_flags;
  	const gchar *url;
  	gboolean require_correct_aspect_ratio = FALSE;
-+	gboolean require_minimum_size = TRUE;
-+	gboolean require_maximum_size = FALSE;
++	gboolean require_size = FALSE;
 +	gboolean require_no_padding = FALSE;
  	gdouble desired_aspect = 1.777777778;
  	gdouble screenshot_aspect;
  	guint status_code;
-@@ -438,6 +441,8 @@ ai_app_validate_image_check (AsImage *im, AsAppValidateHelper *helper)
+@@ -438,6 +440,8 @@ ai_app_validate_image_check (AsImage *im, AsAppValidateHelper *helper)
  	/* make the requirements more strict */
  	if ((helper->flags & AS_APP_VALIDATE_FLAG_STRICT) > 0) {
  		require_correct_aspect_ratio = TRUE;
-+		require_maximum_size = TRUE;
++		require_size = TRUE;
 +		require_no_padding = TRUE;
  	}
  
  	/* relax the requirements a bit */
-@@ -536,47 +541,54 @@ ai_app_validate_image_check (AsImage *im, AsAppValidateHelper *helper)
+@@ -536,47 +540,52 @@ ai_app_validate_image_check (AsImage *im, AsAppValidateHelper *helper)
  	}
  
  	/* check size is reasonable */
@@ -42,20 +38,7 @@ index 5e37bb4..329a471 100644
 -				     AS_PROBLEM_KIND_ATTRIBUTE_INVALID,
 -				     "<screenshot> width too small [%s] minimum is %upx",
 -				     url, ss_size_width_min);
-+	if (require_minimum_size) {
-+		if (screenshot_width < ss_size_width_min) {
-+			ai_app_validate_add (helper,
-+					AS_PROBLEM_KIND_ATTRIBUTE_INVALID,
-+					"<screenshot> width too small [%s] minimum is %upx",
-+					url, ss_size_width_min);
-+		}
-+		if (screenshot_height < ss_size_height_min) {
-+			ai_app_validate_add (helper,
-+					AS_PROBLEM_KIND_ATTRIBUTE_INVALID,
-+					"<screenshot> height too small [%s] minimum is %upx",
-+					url, ss_size_height_min);
-+		}
- 	}
+-	}
 -	if (screenshot_height < ss_size_height_min) {
 -		ai_app_validate_add (helper,
 -				     AS_PROBLEM_KIND_ATTRIBUTE_INVALID,
@@ -73,8 +56,20 @@ index 5e37bb4..329a471 100644
 -				     AS_PROBLEM_KIND_ATTRIBUTE_INVALID,
 -				     "<screenshot> height too large [%s] maximum is %upx",
 -				     url, ss_size_height_max);
++	if (require_size) {
++		if (screenshot_width < ss_size_width_min) {
++			ai_app_validate_add (helper,
++					AS_PROBLEM_KIND_ATTRIBUTE_INVALID,
++					"<screenshot> width too small [%s] minimum is %upx",
++					url, ss_size_width_min);
++		}
++		if (screenshot_height < ss_size_height_min) {
++			ai_app_validate_add (helper,
++					AS_PROBLEM_KIND_ATTRIBUTE_INVALID,
++					"<screenshot> height too small [%s] minimum is %upx",
++					url, ss_size_height_min);
++		}
 +
-+	if (require_maximum_size) {
 +		if (screenshot_width > ss_size_width_max) {
 +			ai_app_validate_add (helper,
 +					AS_PROBLEM_KIND_ATTRIBUTE_INVALID,

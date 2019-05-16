@@ -67,9 +67,8 @@
                 },
                 {
                     "type": "patch",
-                    "path": "0002-Relax-screenshots-requirements.patch"
+                    "path": "0002-Move-padding-and-size-checks-to-validate-strict.patch"
                 }
-
             ]
         }
     ]
