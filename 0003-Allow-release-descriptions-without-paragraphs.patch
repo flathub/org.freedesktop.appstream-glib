@@ -1,0 +1,111 @@
+From cd8aca691a7e556afa9226bdd97f6f256c744400 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bart=C5=82omiej=20Piotrowski?= <b@bpiotrowski.pl>
+Date: Fri, 17 May 2019 11:42:13 +0200
+Subject: [PATCH] Allow release descriptions without paragraphs
+
+---
+ libappstream-glib/as-app-validate.c | 38 +++++++++++++++++------------
+ 1 file changed, 23 insertions(+), 15 deletions(-)
+
+diff --git a/libappstream-glib/as-app-validate.c b/libappstream-glib/as-app-validate.c
+index a98dbb4..46ee649 100644
+--- a/libappstream-glib/as-app-validate.c
++++ b/libappstream-glib/as-app-validate.c
+@@ -287,6 +287,7 @@ as_app_validate_description_para (const gchar *text, AsAppValidateHelper *helper
+ static void
+ as_app_validate_description_list (const gchar *text,
+ 				  gboolean allow_short_para,
++				  gboolean allow_no_para,
+ 				  AsAppValidateHelper *helper)
+ {
+ 	guint length_para_before_list = 20;
+@@ -296,21 +297,23 @@ as_app_validate_description_list (const gchar *text,
+ 		length_para_before_list = 100;
+ 	}
+ 
++	if (!allow_no_para) {
+ 	/* ul without a leading para */
+-	if (helper->number_paragraphs < 1) {
+-		ai_app_validate_add (helper,
+-				     AS_PROBLEM_KIND_STYLE_INCORRECT,
+-				     "<ul> cannot start a description [%s]",
+-				     text);
+-	}
+-	if (!allow_short_para &&
+-	    helper->para_chars_before_list != 0 &&
+-	    helper->para_chars_before_list < (guint) length_para_before_list) {
+-		ai_app_validate_add (helper,
+-				     AS_PROBLEM_KIND_STYLE_INCORRECT,
+-				     "Content before <ul> is too short [%u], at least %u characters required",
+-				     helper->para_chars_before_list,
+-				     length_para_before_list);
++		if (helper->number_paragraphs < 1) {
++			ai_app_validate_add (helper,
++					AS_PROBLEM_KIND_STYLE_INCORRECT,
++					"<ul> cannot start a description [%s]",
++					text);
++		}
++		if (!allow_short_para &&
++		helper->para_chars_before_list != 0 &&
++		helper->para_chars_before_list < (guint) length_para_before_list) {
++			ai_app_validate_add (helper,
++					AS_PROBLEM_KIND_STYLE_INCORRECT,
++					"Content before <ul> is too short [%u], at least %u characters required",
++					helper->para_chars_before_list,
++					length_para_before_list);
++		}
+ 	}
+ 
+ 	/* we allow the previous paragraph to be short to
+@@ -325,6 +328,7 @@ as_app_validate_description (const gchar *xml,
+ 			     guint number_para_min,
+ 			     guint number_para_max,
+ 			     gboolean allow_short_para,
++			     gboolean allow_no_para,
+ 			     GError **error)
+ {
+ 	GNode *l;
+@@ -347,6 +351,7 @@ as_app_validate_description (const gchar *xml,
+ 			   g_strcmp0 (as_node_get_name (l), "ol") == 0) {
+ 			as_app_validate_description_list (as_node_get_data (l),
+ 							  allow_short_para,
++							  allow_no_para,
+ 							  helper);
+ 			for (l2 = l->children; l2 != NULL; l2 = l2->next) {
+ 				if (g_strcmp0 (as_node_get_name (l2), "li") == 0) {
+@@ -845,7 +850,7 @@ as_app_validate_release (AsApp *app,
+ 	const gchar *tmp;
+ 	guint64 timestamp;
+ 	guint number_para_max = 10;
+-	guint number_para_min = 1;
++	guint number_para_min = 0;
+ 	gboolean required_timestamp = TRUE;
+ 
+ 	/* relax the requirements a bit */
+@@ -856,6 +861,7 @@ as_app_validate_release (AsApp *app,
+ 
+ 	/* make the requirements more strict */
+ 	if ((helper->flags & AS_APP_VALIDATE_FLAG_STRICT) > 0) {
++		number_para_min = 1;
+ 		number_para_max = 4;
+ 	}
+ 
+@@ -910,6 +916,7 @@ as_app_validate_release (AsApp *app,
+ 						  number_para_min,
+ 						  number_para_max,
+ 						  TRUE,
++						  TRUE,
+ 						  error))
+ 			return FALSE;
+ 	}
+@@ -1696,6 +1703,7 @@ as_app_validate (AsApp *app, guint32 flags, GError **error)
+ 						   number_para_min,
+ 						   number_para_max,
+ 						   allow_short_para,
++						   FALSE,
+ 						   &error_local);
+ 		if (!ret) {
+ 			ai_app_validate_add (helper,
+-- 
+2.21.0
+

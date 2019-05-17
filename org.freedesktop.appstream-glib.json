@@ -68,6 +68,10 @@
                 {
                     "type": "patch",
                     "path": "0002-Move-padding-and-size-checks-to-validate-strict.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "0003-Allow-release-descriptions-without-paragraphs.patch"
                 }
             ]
         }
