@@ -72,6 +72,10 @@
                 {
                     "type": "patch",
                     "path": "0003-Allow-release-descriptions-without-paragraphs.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "0004-Relax-validation-requirements-for-captions.patch"
                 }
             ]
         }
