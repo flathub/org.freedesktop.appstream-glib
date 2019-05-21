@@ -76,6 +76,10 @@
                 {
                     "type": "patch",
                     "path": "0004-Relax-validation-requirements-for-captions.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "0005-Change-min.-paragraph-length-to-5-and-max.-number-of.patch"
                 }
             ]
         }
