@@ -84,6 +84,10 @@
                 {
                     "type": "patch",
                     "path": "0006-Allow-hyperlinks-in-list-elements-and-paragraphs.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "0007-Update-list-of-allowed-metadata-licences.patch"
                 }
             ]
         }
