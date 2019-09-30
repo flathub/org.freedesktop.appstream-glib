@@ -1,6 +1,6 @@
 {
     "app-id" : "org.freedesktop.appstream-glib",
-    "runtime" : "org.freedesktop.Sdk",
+    "runtime" : "org.freedesktop.Platform",
     "runtime-version" : "19.08",
     "sdk" : "org.freedesktop.Sdk",
     "command" : "appstream-util",
@@ -84,6 +84,10 @@
                 {
                     "type": "patch",
                     "path": "0006-Allow-hyperlinks-in-list-elements-and-paragraphs.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "0007-Update-list-of-allowed-metadata-licences.patch"
                 }
             ]
         }
