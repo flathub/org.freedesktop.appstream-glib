@@ -1,14 +1,14 @@
-From 2b42c9d937d3bc3bd75d76c1b8d46f3c319f5fd8 Mon Sep 17 00:00:00 2001
+From eb6e0d99c00a2a16e16d9aaf03752af78ed4e5c9 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bart=C5=82omiej=20Piotrowski?= <b@bpiotrowski.pl>
 Date: Wed, 29 May 2019 13:12:41 +0200
-Subject: [PATCH] Allow hyperlinks in list elements and paragraphs
+Subject: [PATCH 6/8] Allow hyperlinks in list elements and paragraphs
 
 ---
  libappstream-glib/as-app-validate.c | 8 ++++++--
  1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/libappstream-glib/as-app-validate.c b/libappstream-glib/as-app-validate.c
-index f1273b6..3450a3d 100644
+index 30caf6f..316f5a2 100644
 --- a/libappstream-glib/as-app-validate.c
 +++ b/libappstream-glib/as-app-validate.c
 @@ -147,6 +147,7 @@ static void
@@ -62,5 +62,5 @@ index f1273b6..3450a3d 100644
  				     AS_PROBLEM_KIND_STYLE_INCORRECT,
  				     "<p> cannot contain a hyperlink [%s]",
 -- 
-2.21.0
+2.23.0
 

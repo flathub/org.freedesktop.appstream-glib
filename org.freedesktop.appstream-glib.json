@@ -59,35 +59,20 @@
                 {
                     "type": "git",
                     "url": "https://github.com/hughsie/appstream-glib",
-                    "commit": "0ce2e0b8e8d2dd9be986a7fced0450aa71f181bd"
+                    "tag": "appstream_glib_0_7_16",
+                    "commit": "230e2da082d9754858330c3e262a9d44f816def1"
                 },
                 {
                     "type": "patch",
-                    "path": "0001-Relax-validation-requirements-a-bit.patch"
-                },
-                {
-                    "type": "patch",
-                    "path": "0002-Move-padding-and-size-checks-to-validate-strict.patch"
-                },
-                {
-                    "type": "patch",
-                    "path": "0003-Allow-release-descriptions-without-paragraphs.patch"
-                },
-                {
-                    "type": "patch",
-                    "path": "0004-Relax-validation-requirements-for-captions.patch"
-                },
-                {
-                    "type": "patch",
-                    "path": "0005-Change-min.-paragraph-length-to-5-and-max.-number-of.patch"
-                },
-                {
-                    "type": "patch",
-                    "path": "0006-Allow-hyperlinks-in-list-elements-and-paragraphs.patch"
-                },
-                {
-                    "type": "patch",
-                    "path": "0007-Update-list-of-allowed-metadata-licences.patch"
+                    "paths": [
+                        "0001-Do-not-require-paragraph-length-unless-strict.patch",
+                        "0002-Move-padding-and-size-checks-to-validate-strict.patch",
+                        "0003-Allow-release-descriptions-without-paragraphs.patch",
+                        "0004-Relax-validation-requirements-for-captions.patch",
+                        "0005-Change-min.-paragraph-length-to-5-and-max.-number-of.patch",
+                        "0006-Allow-hyperlinks-in-list-elements-and-paragraphs.patch",
+                        "0008-Reject-appdata-without-defined-component-type.patch"
+                    ]
                 }
             ]
         }

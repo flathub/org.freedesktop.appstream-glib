@@ -1,43 +1,40 @@
-From 7151bb5fb6d6073c5121b737a4db10c60dcb1672 Mon Sep 17 00:00:00 2001
+From 0b7276422713248cfe04d906ea44fab376161b27 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bart=C5=82omiej=20Piotrowski?= <b@bpiotrowski.pl>
-Date: Thu, 16 May 2019 08:08:18 +0200
-Subject: [PATCH] Move padding and size checks to validate-strict
+Date: Fri, 11 Oct 2019 09:40:09 +0200
+Subject: [PATCH 2/8] Move padding and size checks to validate-strict
 
 ---
- libappstream-glib/as-app-validate.c | 85 ++++++++++++++++-------------
- 1 file changed, 47 insertions(+), 38 deletions(-)
+ libappstream-glib/as-app-validate.c | 84 ++++++++++++++++-------------
+ 1 file changed, 46 insertions(+), 38 deletions(-)
 
 diff --git a/libappstream-glib/as-app-validate.c b/libappstream-glib/as-app-validate.c
-index 5e37bb4..a98dbb4 100644
+index 450239b..b25a510 100644
 --- a/libappstream-glib/as-app-validate.c
 +++ b/libappstream-glib/as-app-validate.c
-@@ -421,6 +421,8 @@ ai_app_validate_image_check (AsImage *im, AsAppValidateHelper *helper)
- 	AsImageAlphaFlags alpha_flags;
- 	const gchar *url;
- 	gboolean require_correct_aspect_ratio = FALSE;
+@@ -434,10 +434,14 @@ ai_app_validate_image_check (AsImage *im, AsAppValidateHelper *helper)
+ 	g_autoptr(GInputStream) stream = NULL;
+ 	g_autoptr(SoupMessage) msg = NULL;
+ 	g_autoptr(SoupURI) base_uri = NULL;
 +	gboolean require_size = FALSE;
-+	gboolean require_no_padding = FALSE;
- 	gdouble desired_aspect = 1.777777778;
- 	gdouble screenshot_aspect;
- 	guint status_code;
-@@ -438,6 +440,8 @@ ai_app_validate_image_check (AsImage *im, AsAppValidateHelper *helper)
++	gboolean check_padding = FALSE;
+ 
  	/* make the requirements more strict */
  	if ((helper->flags & AS_APP_VALIDATE_FLAG_STRICT) > 0) {
  		require_correct_aspect_ratio = TRUE;
 +		require_size = TRUE;
-+		require_no_padding = TRUE;
++		check_padding = TRUE;
  	}
  
  	/* relax the requirements a bit */
-@@ -536,47 +540,52 @@ ai_app_validate_image_check (AsImage *im, AsAppValidateHelper *helper)
+@@ -536,47 +540,51 @@ ai_app_validate_image_check (AsImage *im, AsAppValidateHelper *helper)
  	}
  
  	/* check size is reasonable */
 -	if (screenshot_width < ss_size_width_min) {
 -		ai_app_validate_add (helper,
 -				     AS_PROBLEM_KIND_ATTRIBUTE_INVALID,
--				     "<screenshot> width too small [%s] minimum is %upx",
--				     url, ss_size_width_min);
+-				     "<screenshot> width (%u) too small [%s] minimum is %upx",
+-				     screenshot_width, url, ss_size_width_min);
 -	}
 -	if (screenshot_height < ss_size_height_min) {
 -		ai_app_validate_add (helper,
@@ -60,8 +57,8 @@ index 5e37bb4..a98dbb4 100644
 +		if (screenshot_width < ss_size_width_min) {
 +			ai_app_validate_add (helper,
 +					AS_PROBLEM_KIND_ATTRIBUTE_INVALID,
-+					"<screenshot> width too small [%s] minimum is %upx",
-+					url, ss_size_width_min);
++					"<screenshot> width (%u) too small [%s] minimum is %upx",
++					screenshot_width, url, ss_size_width_min);
 +		}
 +		if (screenshot_height < ss_size_height_min) {
 +			ai_app_validate_add (helper,
@@ -69,7 +66,6 @@ index 5e37bb4..a98dbb4 100644
 +					"<screenshot> height too small [%s] minimum is %upx",
 +					url, ss_size_height_min);
 +		}
-+
 +		if (screenshot_width > ss_size_width_max) {
 +			ai_app_validate_add (helper,
 +					AS_PROBLEM_KIND_ATTRIBUTE_INVALID,
@@ -100,7 +96,7 @@ index 5e37bb4..a98dbb4 100644
 -				     AS_PROBLEM_KIND_STYLE_INCORRECT,
 -				     "<image> has horizontal padding [%s]",
 -				     url);
-+	if (require_no_padding) {
++	if (check_padding) {
 +		as_image_set_pixbuf (im, pixbuf);
 +		alpha_flags = as_image_get_alpha_flags (im);
 +		if ((alpha_flags & AS_IMAGE_ALPHA_FLAG_TOP) > 0||
@@ -121,5 +117,5 @@ index 5e37bb4..a98dbb4 100644
  
  	/* check aspect ratio */
 -- 
-2.21.0
+2.23.0
 
