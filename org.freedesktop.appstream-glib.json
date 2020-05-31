@@ -17,6 +17,43 @@
     ],
     "modules" : [
         {
+            "name": "gnutls",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.13.tar.xz",
+                    "sha256": "32041df447d9f4644570cf573c9f60358e865637d69b7e59d1159b7240b52f38"
+                },
+                {
+                    "type": "patch",
+                    "path": "handle-addtrust-root-expiration.patch"
+                }
+            ]
+        },
+        {
+            "name": "glib-networking",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.gnome.org/GNOME/glib-networking/-/archive/2.58.0/glib-networking-2.58.0.tar.bz2",
+                    "sha256": "6beacc90baa0f9b74f4d144d5be251fb5acbe74776d777bef9aca85a7cddb257"
+                }
+            ]
+        },
+        {
+            "name": "libsoup",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.gnome.org/GNOME/libsoup/-/archive/2.64.2/libsoup-2.64.2.tar.bz2",
+                    "sha256": "79b8618c3e6eb0bbab1f1ffa9c73f96b5b175124d7b96d4ab6d42dd0c316e5d1"
+                }
+            ]
+        },
+
+        {
             "name": "libyaml",
             "sources": [
                 {
