@@ -54,7 +54,13 @@
                 "--disable-bdb",
                 "--without-lua"
             ],
-            "cleanup": ["*"],
+            "cleanup": [
+                "/bin/rpm*",
+                "/lib/rpm",
+                "/lib/librpm.so*",
+                "/lib/librpmbuild.so*",
+                "/lib/librpmsign.so*"
+            ],
             "sources": [
                 {
                     "type": "archive",
@@ -68,7 +74,7 @@
             "buildsystem": "meson",
             "config-opts": [
                 "-Dgtk-doc=false",
-                "-Drpm=false"
+                "-Drpm=true"
             ],
             "sources": [
                 {
