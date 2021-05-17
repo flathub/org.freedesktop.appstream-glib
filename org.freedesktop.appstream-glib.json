@@ -17,33 +17,12 @@
     ],
     "modules" : [
         {
-            "name": "krb5",
-            "subdir": "src",
-            "config-opts": [
-                "--disable-static",
-                "--disable-rpath",
-                "--sbindir=/app/bin"
-            ],
-            "cleanup": [
-                "/include",
-                "/lib/pkgconfig",
-                "/var"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://kerberos.org/dist/krb5/1.16/krb5-1.16.2.tar.gz",
-                    "sha256": "9f721e1fe593c219174740c71de514c7228a97d23eb7be7597b2ae14e487f027"
-                }
-            ]
-        },
-        {
             "name": "libyaml",
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://pyyaml.org/download/libyaml/yaml-0.2.1.tar.gz",
-                    "sha256": "78281145641a080fb32d6e7a87b9c0664d611dcb4d542e90baf731f51cbb59cd"
+                    "url": "http://pyyaml.org/download/libyaml/yaml-0.2.5.tar.gz",
+                    "sha256": "c642ae9b75fee120b2d96c712538bd2cf283228d2337df2cf2988e3c02678ef4"
                 }
             ]
         },
@@ -70,18 +49,38 @@
             ]
         },
         {
+            "name": "rpm",
+            "config-opts": [
+                "--disable-bdb",
+                "--without-lua"
+            ],
+            "cleanup": [
+                "/bin/rpm*",
+                "/lib/rpm",
+                "/lib/librpm.so*",
+                "/lib/librpmbuild.so*",
+                "/lib/librpmsign.so*"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://ftp.rpm.org/releases/rpm-4.16.x/rpm-4.16.1.3.tar.bz2",
+                    "sha256": "513dc7f972b6e7ccfc9fc7f9c01d5310cc56ee853892e4314fa2cad71478e21d"
+                }
+            ]
+        },
+        {
             "name": "appstream-glib",
             "buildsystem": "meson",
             "config-opts": [
                 "-Dgtk-doc=false",
-                "-Drpm=false"
+                "-Drpm=true"
             ],
             "sources": [
                 {
                     "type": "git",
                     "url": "https://github.com/hughsie/appstream-glib",
-                    "tag": "appstream_glib_0_7_16",
-                    "commit": "230e2da082d9754858330c3e262a9d44f816def1"
+                    "commit": "44e20bd2e921464185fd12a1ea43b691779a127b"
                 },
                 {
                     "type": "patch",
