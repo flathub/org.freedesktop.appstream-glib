@@ -90,8 +90,7 @@
                         "0003-Allow-release-descriptions-without-paragraphs.patch",
                         "0004-Relax-validation-requirements-for-captions.patch",
                         "0005-Change-min.-paragraph-length-to-5-and-max.-number-of.patch",
-                        "0006-Allow-hyperlinks-in-list-elements-and-paragraphs.patch",
-                        "0008-Reject-appdata-without-defined-component-type.patch"
+                        "0006-Allow-hyperlinks-in-list-elements-and-paragraphs.patch"
                     ]
                 }
             ]
