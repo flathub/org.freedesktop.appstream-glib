@@ -82,7 +82,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/hughsie/appstream-glib",
-                    "commit": "44e20bd2e921464185fd12a1ea43b691779a127b"
+                    "commit": "2e23a7780ea9c01be337d9bf05c7fdfbcd7d6ecc"
                 },
                 {
                     "type": "patch",
