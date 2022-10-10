@@ -87,6 +87,9 @@
                 "-Dgtk-doc=false",
                 "-Drpm=true"
             ],
+	    "post-install": [
+		"install -Dm644 ../org.freedesktop.appstream-glib.metainfo.xml -t $FLATPAK_DEST/share/metainfo"
+	    ],
             "sources": [
                 {
                     "type": "git",
@@ -106,7 +109,11 @@
                         "patches/appstream-glib-curl-redirect.patch",
                         "patches/appstream-glib-curl-validate-redirect.patch"
                     ]
-                }
+                },
+		{
+		    "type": "file",
+		    "path": "org.freedesktop.appstream-glib.metainfo.xml"
+		}
             ]
         }
     ]
