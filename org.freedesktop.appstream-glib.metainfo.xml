@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component type="console-application">
+  <id>org.freedesktop.appstream-glib</id>
+  <name>appstream-glib</name>
+  <summary>AppStream files validation an tools</summary>
+  <developer_name>Richard Hughes</developer_name>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LGPL-2.0-or-later</project_license>
+  <description>
+    <p>This library provides GObjects and helper methods to make it
+    easy to read and write AppStream metadata. It also provides a
+    simple DOM implementation that makes it easy to edit nodes and
+    convert to and from the standardized XML representation. It also
+    supports reading of Debian-style DEP-11 metadata.</p>
+    <p>What this library allows you to do:</p>
+    <ul>
+      <li>Read and write compressed AppStream XML files</li>
+      <li>Read compressed Debian YAML files</li>
+      <li>Add and search for applications in an application store</li>
+      <li>Get screenshot image data and release announcements</li>
+      <li>Easily retrieve the best application data for the current locale</li>
+      <li>Efficiently interface with more heavy-weight parsers like expat</li>
+    </ul>
+  </description>
+  <url type="homepage">https://github.com/hughsie/appstream-glib</url>
+  <url type="bugtracker">https://github.com/hughsie/appstream-glib/issues</url>
+  <url type="vcs-browser">https://github.com/hughsie/appstream-glib</url>
+  <requires>
+    <control>console</control>
+  </requires>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.8.1" date="2022-08-10"/>
+  </releases>
+</component>
