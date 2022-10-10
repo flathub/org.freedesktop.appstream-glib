@@ -1,7 +1,7 @@
 {
     "app-id" : "org.freedesktop.appstream-glib",
     "runtime" : "org.freedesktop.Platform",
-    "runtime-version" : "21.08",
+    "runtime-version" : "22.08",
     "sdk" : "org.freedesktop.Sdk",
     "command" : "appstream-util",
     "separate-locales": false,
@@ -91,17 +91,20 @@
                 {
                     "type": "git",
                     "url": "https://github.com/hughsie/appstream-glib",
-                    "commit": "858bc9504392f7bb648ee99c25fec0284dca494b"
+                    "tag": "appstream_glib_0_8_1",
+                    "commit": "28c985bec286385504c5303a8f29eab4082f5afd"
                 },
                 {
                     "type": "patch",
                     "paths": [
-                        "0001-Do-not-require-paragraph-length-unless-strict.patch",
-                        "0002-Move-padding-and-size-checks-to-validate-strict.patch",
-                        "0003-Allow-release-descriptions-without-paragraphs.patch",
-                        "0004-Relax-validation-requirements-for-captions.patch",
-                        "0005-Change-min.-paragraph-length-to-5-and-max.-number-of.patch",
-                        "0006-Allow-hyperlinks-in-list-elements-and-paragraphs.patch"
+                        "patches/appstream-glib-0001-Do-not-require-paragraph-length-unless-strict.patch",
+                        "patches/appstream-glib-0002-Move-padding-and-size-checks-to-validate-strict.patch",
+                        "patches/appstream-glib-0003-Allow-release-descriptions-without-paragraphs.patch",
+                        "patches/appstream-glib-0004-Relax-validation-requirements-for-captions.patch",
+                        "patches/appstream-glib-0005-Change-min.-paragraph-length-to-5-and-max.-number-of.patch",
+                        "patches/appstream-glib-0006-Allow-hyperlinks-in-list-elements-and-paragraphs.patch",
+                        "patches/appstream-glib-curl-redirect.patch",
+                        "patches/appstream-glib-curl-validate-redirect.patch"
                     ]
                 }
             ]
